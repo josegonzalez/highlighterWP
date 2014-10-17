@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+		<script src="jquery-1.10.2.min.js"></script>
+		<script src="ccS.js"></script>
+		<style>
+			body{background:#233a40;color:#fff;text-shadow:rgba(255,255,255,0.4) -1px 1px 0,
+			#b1cbfc -1px 1px 0;font:16px/1.8 sans-serif;}
+			h1{background:rgba(0,0,0,0.2);text-align:center;color:#fff;font:95px/1 "Impact";text-transform:uppercase;display:block;text-shadow:#253e45 -1px 1px 0,
+			#253e45 -2px 2px 0,
+			#d45848 -3px 3px 0,
+			#d45848 -4px 4px 0;margin:5% auto 5%;}
+			html,body{background-image:url('bg.jpg');}
+			#container{display:block;font:20px/22px Arial,sans-serif;text-align:center;}
+			p{font:25px 'Josefin Sans',Arial,sans-serif;border:1px solid #253e45;border-radius:50px;padding:25px;background-color:#d45848;}
+			.left{float:left;}
+			.right{float:right;}
+		</style>
+		
+
+	</head>
+	<body>
+		<div id="container">
+				<h1 id="ftxt1">Highlighter</h1>
+				<div id="cc1">
+					<p>To incorporate this script into your project simply wrap the content which you want to be shareable in a HTML "DIV" tag with an "ID" value of "CONTENT".</p>
+				</div>
+				<div id="cc2">
+					<p class="left">Highlight the text with your mouse to display Social Media share buttons.<br><br>Share the selected text on Twitter or Facebook.</p>
+				</div>
+				<div id="cc3">
+					<p class="right">Use repeatedly on the same page.  Just assign the ID "CONTENT" to any content.</p>
+					<p class="left">Style the buttons however you like.  Icons are FontAwesome glyphs and basic CSS styling.</p>
+					<p class="right">Share highlighted text across blocks.</p>
+					<p class="left">Have you tried it yet?</p>
+				</div>
+
+		</div>
+		<script>
+			$('#cc1,#cc2,#cc3').highlighter();
+		</script>
+
+</body>
+</html>

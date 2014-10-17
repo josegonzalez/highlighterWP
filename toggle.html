@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Highlight and tweet!</title>
+<style type="text/css">
+	.selectedText{background-color:lightgrey;color:blue;}
+	
+	.tT, #tT li{
+		color:blue !important    
+	}
+	
+	.fT, #fT li{
+		color:red !important    
+	}
+</style>
+ 
+</head>
+
+<body id="ccJS">
+	<div id="ccContainer">
+	<h1>Highlight and capture content</h1>
+
+    <p>In this demo, you're going to be able to highlight a piece of text and click it to share on Twitter or Facebook</p>
+    <p><strong>Instructions:</strong> 
+	<ul>
+		<li>Highlight a piece of text within the bordered container</li>
+		<li>click off of it</li>
+		<li>Click on that selection</li>
+		<li>Click it multiple times to see the styling change
+			<br>
+			<em>Red is Twitter.  Blue is Facebook</em>
+		</li>
+		<li>You can select more text if you want</li>
+		<li>Now click the share button</li>
+	</ul>
+
+</div>     
+<br />
+<input type="button" id="shareCC" value="Share" style="margin-left:10px" />
+<br />
+<br />
+<div style="margin:10px; display:none" id="captures">
+    <div style="float:left; width:300px">
+        <h3>Facebook</h3>
+        <ul id="tT">
+        
+        </ul>
+    </div>
+    <div style="float:left; width:300px">
+        <h3>Twitter</h3>
+        <ul id="fT">
+        
+        </ul>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> 
+<script type="text/javascript">  
+	//define the parent container, it can be the entire page, or a specific block element
+	var parentContainerId = "ccContainer"
+	
+	if(!window.CurrentSelection){
+		CurrentSelection = {}
+	}
+	CurrentSelection.Selector = {}
+	
+	//get the current selection
+	CurrentSelection.Selector.getSelected = function(){
+		var sel = '';
+		if(window.getSelection){
+			sel = window.getSelection()
+		}
+		else if(document.getSelection){
+			sel = document.getSelection()
+		}
+		else if(document.selection){
+			sel = document.selection.createRange()
+		}
+		return sel
+	}
+	
+	//Called on mouseup
+	CurrentSelection.Selector.mouseup = function(){
+		var st = CurrentSelection.Selector.getSelected()
+		if(document.selection && !window.getSelection){
+			var range = st
+			range.pasteHTML("<span class='selectedText'>" + range.htmlText + "</span>");
+		}
+		else{
+			var range = st.getRangeAt(0)    
+			var newNode = document.createElement("span");
+			newNode.setAttribute("class", "selectedText");
+			range.surroundContents(newNode)                
+		}
+	}
+        
+	$(function(){
+		$("#"+parentContainerId).bind("mouseup",CurrentSelection.Selector.mouseup)
+		
+
+		//Clicking the selected highlighted text
+		$("span.selectedText").live("click",function(){
+			if($(this).hasClass("fT")){
+				$(this).addClass("tT").removeClass("fT")    
+			}
+			else if($(this).hasClass("tT")){
+				$(this).addClass("fT").removeClass("tT")    
+			}
+			if(!$(this).hasClass("tT") && !$(this).hasClass("fT")){
+				$(this).addClass("fT")
+			}
+		})
+		//Extract selected highlighted text
+		$("#shareCC").live("click",function(){
+			var tTHtml = '',
+				fTHtml = ''
+			$.each($(".selectedText"),function(i,currItem){
+				if($(currItem).text() != ''){
+					if($(currItem).hasClass("fT")){
+						fTHtml += "<li>"+$(currItem).text()+"</li>"    
+					}
+					if($(currItem).hasClass("tT")){
+						tTHtml += "<li>"+$(currItem).text()+"</li>"    
+					}                        
+				}
+			})
+			
+			$("#tT").html(tTHtml)
+			$("#fT").html(fTHtml)
+			$("#captures").fadeIn()
+		})
+	})        
+</script>   
+</body>
+</html>
